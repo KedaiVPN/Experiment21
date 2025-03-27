@@ -4,11 +4,11 @@
 ![IMAGE](https://raw.githubusercontent.com/KedaiVPN/qris/main/kedai-vpn.png)
 
 <br>
-<h2 align="center"> ✧ Join My WhatsApp Group For Support ✧ </h2>
+<h5 align="center"> ✧ Join My WhatsApp channel For info ✧ </h5>
 
 <h2 align="center">
-  <a href="https://gcwa.nevpn.site">
-    <img src="https://img.shields.io/badge/Join Group-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
+  <a href="https://whatsapp.com/channel/0029Vb2qLyuA89MoFnKD4x01">
+    <img src="https://img.shields.io/badge/channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
   </a>
 </h>
 <br>
