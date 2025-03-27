@@ -42,7 +42,7 @@
 - `modules/renew.js`: Modul untuk memperbarui akun VPN yang sudah ada.
 - `sellvpn.db`: Database SQLite yang menyimpan data pengguna dan server.
 ```
-✨ Selamat menggunakan layanan kami! ✨
+
 
 ### CONTACT KEDAI VPN <br>
 
