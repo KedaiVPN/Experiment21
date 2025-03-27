@@ -52,4 +52,4 @@ Jika Anda memiliki pertanyaan atau masalah, silakan hubungi kami di
 <br>
 <h5 align="center"> ✧ Thanks To NEWBIE STORE ✧ </h5>
 <br>
-<h4 align="center"> ©2025Copyright by KEDAI VPN </h4>
+<h4 align="center"> ©2025 Copyright by FTVPN </h4>
