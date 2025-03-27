@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Capriola&size=40&duration=4000&pause=450&color=F70069&background=FFFFAA00&center=true&random=false&width=600&height=100&lines=NEBOT RESELLER !;Explore the world of features!" /></p>
+  <img src="https://readme-typing-svg.demolab.com?font=Capriola&size=40&duration=4000&pause=450&color=F70069&background=FFFFAA00&center=true&random=false&width=600&height=100&lines=KEDAI VPN | BOT RESELLER !; THANKS TO NEWBIE STORE!" /></p>
 
 ![IMAGE](https://raw.githubusercontent.com/KedaiVPN/qris/main/kedai-vpn.png)
 
@@ -52,4 +52,4 @@ Jika Anda memiliki pertanyaan atau masalah, silakan hubungi kami di
 <br>
 <h5 align="center"> ✧ Thanks To NEWBIE STORE ✧ </h5>
 <br>
-<h3 align="center"> © Copyright by FTVPN </h3>
+<h4 align="center"> ©2025Copyright by KEDAI VPN </h4>
