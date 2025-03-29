@@ -1175,15 +1175,15 @@ bot.on('text', async (ctx) => {
             }
           } else if (action === 'delete') {
             if (type === 'vmess') {
-              msg = await deletevmess(username, serverId);
+              msg = await deletevmess(username, serverId, ctx.from.id);
             } else if (type === 'vless') {
-              msg = await deletevless(username, serverId);
+              msg = await deletevless(username, serverId, ctx.from.id);
             } else if (type === 'trojan') {
-              msg = await deletetrojan(username, serverId);
+              msg = await deletetrojan(username, serverId, ctx.from.id);
             } else if (type === 'shadowsocks') {
-              msg = await deleteshadowsocks(username, serverId);
+              msg = await deleteshadowsocks(username, serverId, ctx.from.id);
             } else if (type === 'ssh') {
-              msg = await deletessh(username, serverId);
+              msg = await deletessh(username, serverId, ctx.from.id);
             }
           }
           // Kurangi saldo pengguna jika create
