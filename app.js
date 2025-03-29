@@ -779,6 +779,9 @@ async function sendAdminMenu(ctx) {
     ],
     [
       { text: '💵 Tambah Saldo', callback_data: 'addsaldo_user' },
+      { text: '✂️ Potong Saldo', callback_data: 'cut_saldo' }
+    ],
+    [
       { text: '📋 List Server', callback_data: 'listserver' }
     ],
     [
@@ -1207,7 +1210,47 @@ bot.on('text', async (ctx) => {
         });
       });
     });
-  } else if (state.step === 'addserver') {
+  } else if (state.step === 'cut_saldo') {
+    let amount = ctx.message.text.trim();
+    if (!/^\d+$/.test(amount)) {
+      return await ctx.reply('⚠️ *Jumlah tidak valid. Masukkan angka yang valid.*', { parse_mode: 'Markdown' });
+    }
+    amount = parseInt(amount);
+
+    db.all('SELECT user_id, saldo FROM users', [], async (err, users) => {
+      if (err) {
+        console.error('❌ Kesalahan saat mengambil data pengguna:', err.message);
+        return await ctx.reply('❌ *Terjadi kesalahan saat mengambil data pengguna.*', { parse_mode: 'Markdown' });
+      }
+
+      let successCount = 0;
+      let failCount = 0;
+
+      for (const user of users) {
+        const newSaldo = Math.max(0, user.saldo - amount); // Prevent negative balance
+        await new Promise((resolve) => {
+          db.run('UPDATE users SET saldo = ? WHERE user_id = ?', [newSaldo, user.user_id], (err) => {
+            if (err) {
+              console.error(`❌ Kesalahan saat memotong saldo user ${user.user_id}:`, err.message);
+              failCount++;
+            } else {
+              successCount++;
+              // Notify user about balance deduction
+              bot.telegram.sendMessage(user.user_id, 
+                `⚠️ *Pemberitahuan Pemotongan Saldo*\n\n💰 Saldo Anda telah dipotong sebesar: *Rp${amount}*\n💳 Saldo saat ini: *Rp${newSaldo}*`, 
+                { parse_mode: 'Markdown' }
+              ).catch(console.error);
+            }
+            resolve();
+          });
+        });
+      }
+
+      await ctx.reply(`✅ *Pemotongan saldo selesai*\n\n✨ Berhasil: ${successCount} pengguna\n❌ Gagal: ${failCount} pengguna`, 
+        { parse_mode: 'Markdown' });
+      delete userState[ctx.chat.id];
+    });
+} else if (state.step === 'addserver') {
     const domain = ctx.message.text.trim();
     if (!domain) {
       await ctx.reply('⚠️ *Domain tidak boleh kosong.* Silakan masukkan domain server yang valid.', { parse_mode: 'Markdown' });
@@ -2026,6 +2069,24 @@ bot.action('nama_server_edit', async (ctx) => {
   } catch (error) {
     console.error('❌ Kesalahan saat memulai proses edit nama server:', error);
     await ctx.reply(`❌ *${error}*`, { parse_mode: 'Markdown' });
+  }
+});
+
+bot.action('cut_saldo', async (ctx) => {
+  try {
+    const userId = ctx.from.id;
+    if (!adminIds.includes(userId)) {
+      return ctx.reply('⚠️ *Anda tidak memiliki izin untuk menggunakan fitur ini.*', { parse_mode: 'Markdown' });
+    }
+
+    await ctx.reply('✂️ *Masukkan jumlah saldo yang ingin dipotong dari semua pengguna:*', {
+      reply_markup: { inline_keyboard: keyboard_nomor() },
+      parse_mode: 'Markdown'
+    });
+    userState[ctx.chat.id] = { step: 'cut_saldo' };
+  } catch (error) {
+    console.error('❌ Kesalahan saat memulai proses potong saldo:', error);
+    await ctx.reply('❌ *GAGAL! Terjadi kesalahan saat memproses permintaan Anda.*', { parse_mode: 'Markdown' });
   }
 });
 
