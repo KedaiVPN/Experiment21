@@ -20,7 +20,7 @@ const PAYDISINI_KEY = vars.PAYDISINI_KEY;
 const BOT_TOKEN = vars.BOT_TOKEN;
 const port = vars.PORT || 50123;
 const ADMIN = vars.USER_ID; 
-const NAMA_STORE = vars.NAMA_STORE || '@NEWBIESTORE';
+const NAMA_STORE = vars.NAMA_STORE || 'KEDAIVPN';
 const bot = new Telegraf(BOT_TOKEN, {
     handlerTimeout: 180_000 
 });
