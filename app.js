@@ -766,7 +766,7 @@ async function sendAdminMenu(ctx) {
       { text: '📝 Edit Nama', callback_data: 'nama_server_edit' }
     ],
     [
-      { text: '🌐 Edit Domain', callback_data: 'editserver_domain' },
+      { text: text: '🌐 Edit Domain', callback_data: 'editserver_domain' },
       { text: '🔑 Edit Auth', callback_data: 'editserver_auth' }
     ],
     [
@@ -1429,7 +1429,7 @@ bot.action('listserver', async (ctx) => {
 bot.action('resetdb', async (ctx) => {
   try {
     await ctx.answerCbQuery();
-    await ctx.reply('🚨 *PERHATIAN! Anda akan menghapus semua server yang tersedia. Apakah Anda yakin?*', {
+    await ctx.reply('🚨 *PERHATIAN! Anda akan menghapus semua server yang tersedia. Apakah Andayakin?*', {
       reply_markup: {
         inline_keyboard: [
           [{ text: '✅ Ya', callback_data: 'confirm_resetdb' }],
