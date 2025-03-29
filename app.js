@@ -57,6 +57,7 @@ db.run(`CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER UNIQUE,
   saldo INTEGER DEFAULT 0,
+  role TEXT DEFAULT 'user',
   CONSTRAINT unique_user_id UNIQUE (user_id)
 )`, (err) => {
   if (err) {
@@ -71,7 +72,7 @@ console.log('User state initialized');
 
 bot.command(['start', 'menu'], async (ctx) => {
   console.log('Start or Menu command received');
-  
+
   const userId = ctx.from.id;
   db.get('SELECT * FROM users WHERE user_id = ?', [userId], (err, row) => {
     if (err) {
@@ -97,7 +98,7 @@ bot.command(['start', 'menu'], async (ctx) => {
 
 bot.command('admin', async (ctx) => {
   console.log('Admin menu requested');
-  
+
   if (!adminIds.includes(ctx.from.id)) {
     await ctx.reply('🚫 Anda tidak memiliki izin untuk mengakses menu admin.');
     return;
@@ -122,7 +123,7 @@ async function sendMainMenu(ctx) {
 
   const uptime = os.uptime();
   const days = Math.floor(uptime / (60 * 60 * 24));
-  
+
   let jumlahServer = 0;
   try {
     const row = await new Promise((resolve, reject) => {
@@ -1121,7 +1122,13 @@ bot.on('text', async (ctx) => {
           return ctx.reply('❌ *Server tidak ditemukan.*', { parse_mode: 'Markdown' });
         }
 
-        const harga = server.harga;
+        let harga = server.harga;
+        // Apply price multiplier for users
+        const userData = await getUserData(ctx.from.id);
+        if (userData.role === 'user') {
+          const settings = await getSettings(['user_price_multiplier']);
+          harga = Math.ceil(harga * parseFloat(settings.user_price_multiplier));
+        }
         const totalHarga = harga * state.exp; 
 
         db.get('SELECT saldo FROM users WHERE user_id = ?', [ctx.from.id], async (err, user) => {
@@ -1301,7 +1308,7 @@ bot.action('detailserver', async (ctx) => {
   try {
     console.log('📋 Proses detail server dimulai');
     await ctx.answerCbQuery();
-    
+
     const servers = await new Promise((resolve, reject) => {
       db.all('SELECT * FROM Server', [], (err, servers) => {
         if (err) {
@@ -1347,7 +1354,7 @@ bot.action('listserver', async (ctx) => {
   try {
     console.log('📜 Proses daftar server dimulai');
     await ctx.answerCbQuery();
-    
+
     const servers = await new Promise((resolve, reject) => {
       db.all('SELECT * FROM Server', [], (err, servers) => {
         if (err) {
@@ -1426,7 +1433,7 @@ bot.action('deleteserver', async (ctx) => {
   try {
     console.log('🗑️ Proses hapus server dimulai');
     await ctx.answerCbQuery();
-    
+
     db.all('SELECT * FROM Server', [], (err, servers) => {
       if (err) {
         console.error('⚠️ Kesalahan saat mengambil daftar server:', err.message);
@@ -2027,18 +2034,18 @@ bot.action('topup_saldo', async (ctx) => {
     await ctx.answerCbQuery(); 
     const userId = ctx.from.id;
     console.log(`🔍 User ${userId} memulai proses top-up saldo.`);
-    
+
 
     if (!global.depositState) {
       global.depositState = {};
     }
     global.depositState[userId] = { action: 'request_amount', amount: '' };
-    
+
     console.log(`🔍 User ${userId} diminta untuk memasukkan jumlah nominal saldo.`);
-    
+
 
     const keyboard = keyboard_nomor();
-    
+
     await ctx.reply('💰 *Silakan masukkan jumlah nominal saldo yang Anda ingin tambahkan ke akun Anda:*', {
       reply_markup: {
         inline_keyboard: keyboard
@@ -2693,7 +2700,7 @@ app.post('/callback/paydisini', async (req, res) => {
                   }
                   const newSaldo = row.saldo;
                   const message = `✅ Deposit berhasil!\n\n💰 Jumlah: Rp ${amount}\n💵 Saldo sekarang: Rp ${newSaldo}`;
-                
+
                   const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
                   axios.post(telegramUrl, {
                       chat_id: user_id,
@@ -2725,3 +2732,30 @@ app.listen(port, () => {
     });
     console.log(`Server berjalan di port ${port}`);
 });
+
+async function getUserData(userId) {
+  return new Promise((resolve, reject) => {
+    db.get('SELECT role FROM users WHERE user_id = ?', [userId], (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(row || { role: 'user' }); // Default to 'user' if not found
+      }
+    });
+  });
+}
+
+async function getSettings(keys) {
+  // Placeholder for fetching settings from a database or config file.  Replace with your actual implementation.
+  const settings = {
+    user_price_multiplier: '1.2', // Example: 20% markup for users
+    // Add other settings as needed
+  };
+  const result = {};
+  keys.forEach(key => {
+    if (settings[key]) {
+      result[key] = settings[key];
+    }
+  });
+  return result;
+}
