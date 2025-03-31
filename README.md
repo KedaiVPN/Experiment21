@@ -13,12 +13,14 @@
 </h>
 <br>
 
-### INSTALL BOT RESELLER 
+### AUTO INSTALL SCRIPT
 ```bash
 # Auto Install Script
 wget -qO- https://raw.githubusercontent.com/KedaiVPN/Experiment21/main/install.sh | bash
+```
 
-# Atau install manual
+### INSTALL SCRIPT MANUAL
+```MANUAL
 git clone https://github.com/KedaiVPN/Experiment21.git && cd Experiment21 && npm install && npm start
 ```
 
