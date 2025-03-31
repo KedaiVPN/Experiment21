@@ -14,13 +14,17 @@
 <br>
 
 ### INSTALL BOT RESELLER 
-```bash
-# Auto Install Script
-wget -qO- https://raw.githubusercontent.com/KedaiVPN/Experiment21/main/install.sh | bash
 
-# Atau install manual
-git clone https://github.com/KedaiVPN/Experiment21.git && cd Experiment21 && npm install && npm start
-```
+| Auto Install | Manual Install |
+|--------------|---------------|
+| ```bash
+wget -qO- https://raw.githubusercontent.com/KedaiVPN/Experiment21/main/install.sh | bash
+``` | ```bash
+git clone https://github.com/KedaiVPN/Experiment21.git
+cd Experiment21
+npm install
+npm start
+``` |
 
 ### TESTED ON OS 
 - UBUNTU 20.04 22 24.04 24.10
