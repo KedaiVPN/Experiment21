@@ -14,8 +14,19 @@
 <br>
 
 ### INSTALL BOT RESELLER 
-<pre><code>wget -q https://raw.githubusercontent.com/KedaiVPN/Experiment21/main/start && chmod +x start && ./start nebotsell
-</code></pre>
+```bash
+# Clone repository
+git clone https://github.com/KedaiVPN/Experiment21.git
+
+# Masuk ke direktori
+cd Experiment21
+
+# Install dependencies
+npm install
+
+# Jalankan bot
+npm start
+```
 
 ### TESTED ON OS 
 - UBUNTU 20.04 22 24.04 24.10
