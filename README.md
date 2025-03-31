@@ -15,17 +15,11 @@
 
 ### INSTALL BOT RESELLER 
 ```bash
-# Clone repository
-git clone https://github.com/KedaiVPN/Experiment21.git
+# Auto Install Script
+wget -qO- https://raw.githubusercontent.com/KedaiVPN/Experiment21/main/install.sh | bash
 
-# Masuk ke direktori
-cd Experiment21
-
-# Install dependencies
-npm install
-
-# Jalankan bot
-npm start
+# Atau install manual
+git clone https://github.com/KedaiVPN/Experiment21.git && cd Experiment21 && npm install && npm start
 ```
 
 ### TESTED ON OS 
