@@ -1,6 +1,18 @@
 const os = require('os');
 const sqlite3 = require('sqlite3').verbose();
 const express = require('express');
+
+const rateLimit = require('express-rate-limit');
+const { body, validationResult } = require('express-validator');
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+
+app.use(limiter);
+
 const crypto = require('crypto');
 const { Telegraf, Scenes, session } = require('telegraf');
 
